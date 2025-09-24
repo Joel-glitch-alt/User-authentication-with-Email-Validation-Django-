@@ -4,3 +4,15 @@
 [0915/121722.622:ERROR:third_party\crashpad\crashpad\util\win\registration_protocol_win.cc:108] CreateFile: The system cannot find the file specified. (0x2)
 [0915/121741.921:ERROR:third_party\crashpad\crashpad\util\win\registration_protocol_win.cc:108] CreateFile: The system cannot find the file specified. (0x2)
 [0915/121857.224:ERROR:third_party\crashpad\crashpad\util\win\registration_protocol_win.cc:108] CreateFile: The system cannot find the file specified. (0x2)
+[0924/160847.579:ERROR:third_party\crashpad\crashpad\util\win\registration_protocol_win.cc:108] CreateFile: The system cannot find the file specified. (0x2)
+[0924/160855.639:ERROR:third_party\crashpad\crashpad\util\win\registration_protocol_win.cc:108] CreateFile: The system cannot find the file specified. (0x2)
+[0924/160857.925:ERROR:third_party\crashpad\crashpad\client\crashpad_client_win.cc:869] not connected
+[0924/160857.925:ERROR:third_party\crashpad\crashpad\client\crashpad_client_win.cc:869] not connected
+[0924/160858.051:ERROR:third_party\crashpad\crashpad\util\win\registration_protocol_win.cc:108] CreateFile: The system cannot find the file specified. (0x2)
+[0924/160900.060:ERROR:third_party\crashpad\crashpad\client\crashpad_client_win.cc:869] not connected
+[0924/160900.165:ERROR:third_party\crashpad\crashpad\util\win\registration_protocol_win.cc:108] CreateFile: The system cannot find the file specified. (0x2)
+[0924/160902.219:ERROR:third_party\crashpad\crashpad\client\crashpad_client_win.cc:869] not connected
+[0924/160902.299:ERROR:third_party\crashpad\crashpad\util\win\registration_protocol_win.cc:108] CreateFile: The system cannot find the file specified. (0x2)
+[0924/160904.320:ERROR:third_party\crashpad\crashpad\client\crashpad_client_win.cc:869] not connected
+[0924/160904.436:ERROR:third_party\crashpad\crashpad\util\win\registration_protocol_win.cc:108] CreateFile: The system cannot find the file specified. (0x2)
+[0924/160906.603:ERROR:third_party\crashpad\crashpad\client\crashpad_client_win.cc:869] not connected

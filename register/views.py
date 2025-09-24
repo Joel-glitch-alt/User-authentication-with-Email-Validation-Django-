@@ -101,6 +101,11 @@ class PasswordResetConfirm(GenericAPIView):
                     'success':True, 'message': 'Token is valid, you can now reset your password', 'uidb64': uidb64, 'token': token
                 }, status = status.HTTP_200_OK)
 
+         except DjangoUnicodeDecodeError:
+                return Response({
+                    'message': 'Token is not valid, please request a new one'
+                }, status = status.HTTP_401_UNAUTHORIZED
+                )
 
-
-         except:
+class SetNewPassword(GenericAPIView):
+        def patch(self, request):

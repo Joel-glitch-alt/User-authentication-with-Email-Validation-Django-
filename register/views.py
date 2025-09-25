@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 
-from .serializers import UserRegisterSerializer,LoginSerializer,PasswordResetRequestSerializer
+from .serializers import UserRegisterSerializer,LoginSerializer,PasswordResetRequestSerializer,SetNewPasswordSerializer
 from .utils import send_otp_via_email
 from .models import OneTimePassword, user
 from django.utils.http import urlsafe_base64_decode
@@ -90,7 +90,7 @@ class PasswordResetRequestView(GenericAPIView):
 # Password Reset Confirm View (Optional)
 class PasswordResetConfirm(GenericAPIView):
      def get(self, request, uidb64, token):
-          try:
+        try:
             user_id = smart_str(urlsafe_base64_decode(uidb64))
             user= user.objects.get(id = user_id)
             if not PasswordResetTokenGenerator().check_token(user, token):
@@ -101,11 +101,14 @@ class PasswordResetConfirm(GenericAPIView):
                     'success':True, 'message': 'Token is valid, you can now reset your password', 'uidb64': uidb64, 'token': token
                 }, status = status.HTTP_200_OK)
 
-         except DjangoUnicodeDecodeError:
+        except DjangoUnicodeDecodeError:
                 return Response({
                     'message': 'Token is not valid, please request a new one'
                 }, status = status.HTTP_401_UNAUTHORIZED
                 )
 
 class SetNewPassword(GenericAPIView):
-        def patch(self, request):
+    serializer_class = SetNewPasswordSerializer
+    def post(self, request):
+        pass
+             

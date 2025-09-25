@@ -93,3 +93,37 @@ class PasswordResetRequestSerializer(serializers.Serializer):
 
 
           return super().validate(attrs) 
+     
+# Set New Password Serializer
+class SetNewPasswordSerializer(serializers.Serializer):
+     password= serializers.CharField(max_length = 68, min_length = 8, wriete_only = True)
+     confirm_password = serializers.CharField(max_length = 68, min_length = 8, write_only = True)
+     uidb64 = serializers.CharField(max_length = 255, write_only = True)
+     token = serializers.CharField(wwrite_only = True)
+
+     class Meta:
+          fields = ['password', 'confirm_password', 'uidb64', 'token']
+
+     def validate(self, attrs):
+          try:
+              token= attrs.get('token')
+              uidb64 = attrs.get('uidb64')
+              password = attrs.get('password')
+              confirm_password = attrs.get('confirm_password')
+
+              user_id = force_str(urlsafe_base64_decode(uidb64))
+              user = User.objects.get(id = user_id)
+              if not PasswordResetTokenGenerator().check_token(user, token):
+                raise serializers.ValidationError('The reset link is invalid', 401)
+              if password != confirm_password:
+                raise serializers.ValidationError('Password and Confirm Password do not match', 400)
+              user.set_password(password)
+              user.save()
+              return user
+          except Exception as e:
+               return AuthenticationFailed('The reset link is invalid or expired', 401)
+          
+
+          #
+          #
+          

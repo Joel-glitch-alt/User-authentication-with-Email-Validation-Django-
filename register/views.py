@@ -7,7 +7,7 @@ from .serializers import (
     UserRegisterSerializer,
     LoginSerializer,
     PasswordResetRequestSerializer,
-    SetNewPasswordSerializer
+    SetNewPasswordSerializer,LogoutUserSerializer,
 )
 from .utils import send_otp_via_email
 from .models import OneTimePassword
@@ -64,15 +64,6 @@ class VerifyUserEmail(GenericAPIView):
 
 
 # ✅ Login View
-# class LoginUserView(GenericAPIView):
-#     serializer_class = LoginSerializer
-
-#     def post(self, request):
-#         serializer = self.serializer_class(data=request.data, context={'request': request})
-#         serializer.is_valid(raise_exception=True)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
-
-
 class LoginView(GenericAPIView):
     serializer_class = LoginSerializer
 
@@ -139,3 +130,17 @@ class SetNewPassword(GenericAPIView):
         return Response({
             'message': 'Password reset successful'
         }, status=status.HTTP_200_OK)
+
+
+#Logout View (Optional)
+class LogoutView(GenericAPIView):
+    serializer_class = LogoutUserSerializer
+    permission_classes = [IsAuthenticated]
+
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data) 
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)

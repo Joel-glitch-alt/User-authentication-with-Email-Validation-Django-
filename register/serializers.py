@@ -8,6 +8,7 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 from .utils import send_normal_email
+from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 
 
 # ✅ User Registration
@@ -169,3 +170,24 @@ class SetNewPasswordSerializer(serializers.Serializer):
             return user
         except DjangoUnicodeDecodeError:
             raise AuthenticationFailed('The reset link is invalid or expired')
+        
+
+# ✅ Logout Serializer (Optional)
+class LogoutUserSerializer(serializers.Serializer):
+    refresh_token = serializers.CharField()
+
+    default_error_messages = {
+        'bad_token': ('Token is expired or invalid')
+    }
+
+
+    def validate(self, attrs):
+        self.token=attrs.get('refresh_token')
+        return attrs
+    
+    def save(self, **kwargs):
+        try:
+           token =  RefreshToken(self.token)
+           token.blacklist()
+        except TokenError:
+            return self.fail('bad_token')

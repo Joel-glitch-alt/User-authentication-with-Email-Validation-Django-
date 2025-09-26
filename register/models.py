@@ -6,6 +6,9 @@ from django.conf import settings
 from .manager import UserManager
 from rest_framework_simplejwt.tokens import RefreshToken
 
+
+AUTH_PROVIDERS = {'email': 'email', 'google': 'google', 'github': 'github', 'facebook': 'facebook'}
+
 # Custom User Model
 class User(AbstractUser, PermissionsMixin):
     username = None  #  remove username completely
@@ -18,6 +21,7 @@ class User(AbstractUser, PermissionsMixin):
     is_active = models.BooleanField(default=True, verbose_name=_("active status"))
     date_joined = models.DateTimeField(auto_now_add=True, verbose_name=_("date joined"))
     last_login = models.DateTimeField(auto_now=True, verbose_name=_("last login"))
+    auth_provider = models.CharField(max_length=50, default=AUTH_PROVIDERS.get('email'))
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']

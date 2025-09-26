@@ -37,3 +37,23 @@ def register_social_user(provider, email, first_name, last_name):
             raise AuthenticationFailed(
                 detail=f'Please continue your login using {user[0].auth_provider}'
             )
+        
+    new_user ={
+         'email': email,
+         'first_name': first_name,
+         'last_name': last_name,
+         'password': settings.SOCIAL_AUTH_PASSWORD
+        }
+    register_user =User = User.objects.create_user(**new_user)
+    register_user.auth_provider = provider
+    register_user.is_verified = True
+    register_user.save()
+    login_user = authenticate(email=email, password=settings.SOCIAL_AUTH_PASSWORD)
+    user_tokens = login_user.tokens()
+    return {
+            "email": user.email,
+            "full_name": login_user.full_name,
+            "access_token":str(user_tokens["access"]),
+            "refresh_token": str(user_tokens["refresh"]),
+        }
+    #user = authenticate(email=email, password=settings.SOCIAL_AUTH_PASSWORD)

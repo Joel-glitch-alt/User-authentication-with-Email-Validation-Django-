@@ -18,42 +18,54 @@ class Google():
         except Exception as e:
             return "token is invalid or has expired!"
         
-
+def login_social_user(email, password):
+     user = authenticate(email=email, password=password)
+     user_tokens =user.tokens()
+     return {
+            "email": user.email,
+            "full_name":user.full_name,
+            "access_token":str(user_tokens["access"]),
+            "refresh_token": str(user_tokens["refresh"]),
+        }
 
 def register_social_user(provider, email, first_name, last_name):
     user = User.objects.filter(email=email)
     if user.exists():
         if provider == user[0].auth_provider:
-            login_user = authenticate(email=email, password=settings.SOCIAL_AUTH_PASSWORD)
-            user_tokens = login_user.tokens()
-            return {
-            "email": user.email,
-            "full_name": login_user.full_name,
-            "access_token":str(user_tokens["access"]),
-            "refresh_token": str(user_tokens["refresh"]),
-        }
-
+        #     login_user = authenticate(email=email, password=settings.SOCIAL_AUTH_PASSWORD)
+        #     user_tokens = login_user.tokens()
+        #     return {
+        #     "email": user.email,
+        #     "full_name": login_user.full_name,
+        #     "access_token":str(user_tokens["access"]),
+        #     "refresh_token": str(user_tokens["refresh"]),
+        # }
+             
+             login_social_user(email,settings.SOCIAL_AUTH_PASSWORD)
         else:
             raise AuthenticationFailed(
                 detail=f'Please continue your login using {user[0].auth_provider}'
             )
+    else:
         
-    new_user ={
+        new_user ={
          'email': email,
          'first_name': first_name,
          'last_name': last_name,
          'password': settings.SOCIAL_AUTH_PASSWORD
         }
-    register_user =User = User.objects.create_user(**new_user)
-    register_user.auth_provider = provider
-    register_user.is_verified = True
-    register_user.save()
-    login_user = authenticate(email=email, password=settings.SOCIAL_AUTH_PASSWORD)
-    user_tokens = login_user.tokens()
-    return {
-            "email": user.email,
-            "full_name": login_user.full_name,
-            "access_token":str(user_tokens["access"]),
-            "refresh_token": str(user_tokens["refresh"]),
-        }
+        register_user =User.objects.create_user(**new_user)
+        register_user.auth_provider = provider
+        register_user.is_verified = True
+        register_user.save()
+        login_social_user(email= register_user.email, password=settings.SOCIAL_AUTH_PASSWORD)
+        # login_user = authenticate(email=email, password=settings.SOCIAL_AUTH_PASSWORD)
+        # login_user(email,settings.SOCIAL_AUTH_PASSWORD)
+    # user_tokens = login_user.tokens()
+    # return {
+    #         "email": user.email,
+    #         "full_name": login_user.full_name,
+    #         "access_token":str(user_tokens["access"]),
+    #         "refresh_token": str(user_tokens["refresh"]),
+    #     }
     #user = authenticate(email=email, password=settings.SOCIAL_AUTH_PASSWORD)

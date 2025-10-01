@@ -41,7 +41,7 @@ Deployment: Works on any WSGI/ASGI server (Gunicorn, Nginx, etc.)
 ⚙️ Setup Instructions
 
 1️⃣ Clone Repository
-git clone https://github.com/your-username/your-repo-name.git
+git clone https://github.com/Joel-glitch-alt/User-authentication-with-Email-Validation-Django-.git
 cd your-repo-name
 
 2️⃣ Create Virtual Environment
